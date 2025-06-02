@@ -45,6 +45,16 @@ from interbotix_xs_modules.xs_common import (
 )
 
 
+def load_yaml(package_name, file_path):
+    package_path = get_package_share_directory(package_name)
+    absolute_file_path = os.path.join(package_path, file_path)
+    try:
+        with open(absolute_file_path, 'r') as file:
+            return yaml.safe_load(file)
+    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
+        return None
+
+
 def generate_launch_description():
     # Set ignition resource path
     '''ign_gz_resource_path_env_var = SetEnvironmentVariable(
@@ -73,10 +83,9 @@ def generate_launch_description():
     )
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare('interbotix_xsarm_sim'),
+            FindPackageShare('boris_moveit_config'),
             'config',
-            'trajectory_controllers',
-            'wx200_trajectory_controllers.yaml'
+            'ros2_controllers.yaml',
         ]
     )
     joint_state_broadcaster_spawner = Node(
@@ -89,8 +98,8 @@ def generate_launch_description():
         package='controller_manager',
         executable='spawner',
         arguments=[
-            'arm_controller',
-            'gripper_controller',
+            'interbotix_arm_controller',
+            'interbotix_gripper_controller',
             '--param-file',
             robot_controllers,
             ],
@@ -114,7 +123,7 @@ def generate_launch_description():
         executable='robot_state_publisher',
         parameters=[{
             'robot_description': robot_description,
-            'use_sim_time': True,
+            #'use_sim_time': True,
         }],
         #namespace='/wx200',
         output={'both': 'screen'},
@@ -125,7 +134,7 @@ def generate_launch_description():
         executable='joint_state_publisher',
         #namespace='/wx200',
         parameters=[{
-            'use_sim_time': True,
+            #'use_sim_time': True,
         }],
         output={'both': 'log'},
     )
@@ -157,14 +166,19 @@ def generate_launch_description():
         ],
         output='screen',
     )
-    navigation = IncludeLaunchDescription(
+    '''navigation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('nav2_bringup'), 'launch', 'bringup_launch.py')),
         launch_arguments={
-            'use_sim_time': 'false',
+            'use_sim_time': 'true',
             'autostart': 'True',
             'map': os.path.join(get_package_share_directory('fbot_navigation'), 'maps', 'arena_env.yaml'),
             'params_file': os.path.join(get_package_share_directory('fbot_navigation'), 'param', 'tb3_nav2_params_sim.yaml'),
             'slam': 'False',
+        }.items()
+    )'''
+    navigation = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('fbot_navigation'), 'launch', 'navigation.launch.py')),
+        launch_arguments={
         }.items()
     )
     scan_relay = Node(
@@ -175,18 +189,15 @@ def generate_launch_description():
             '/lms1xx/scan', '/scan'
         ]
     )
-    '''static_transform = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='static_transform_publisher',
-        arguments=[
-            '0', '0', '0', '0', '0', '0', 'world', 'map'
-        ]
-    )'''
-    rviz = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2"
+    moveit = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            launch_file_path=os.path.join(get_package_share_directory('boris_moveit_config'), 'launch', 'demo.launch.py')
+        )
+    )
+    agent = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            launch_file_path=os.path.join(get_package_share_directory('fbot_agent'), 'launch', 'fbot_agent.launch.py')
+        )
     )
     return LaunchDescription([
         #ign_gz_resource_path_env_var,
@@ -201,5 +212,8 @@ def generate_launch_description():
         navigation,
         scan_relay,
         #static_transform,
-        rviz
+        #move_group_node,
+        #rviz,
+        moveit,
+        agent,
     ])
