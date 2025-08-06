@@ -1,4 +1,5 @@
-# fbot_simulation
+<img width="5315" height="719" alt="fbot_simulation" src="https://github.com/user-attachments/assets/a7a50137-774d-4370-987d-8d12e89bb63a" />
+
 This package provides a simulation environment using ROS 2 and Gazebo.
 
 ## Prerequisites
