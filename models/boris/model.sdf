@@ -140,7 +140,7 @@
         <pose>-0.02248 -0.11374 -0.02141 1.5708 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Cube.001.dae</uri>
+            <uri>package://fbot_description/meshes/face/Cube.001.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -163,7 +163,7 @@
         <pose>0.05463 0.06043 -0.08008 1.5708 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Plane.012.dae</uri>
+            <uri>package://fbot_description/meshes/face/Plane.012.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -199,7 +199,7 @@
         <pose>0 0 0 -1.5708 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Cube.002.dae</uri>
+            <uri>package://fbot_description/meshes/face/Cube.002.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -222,7 +222,7 @@
         <pose>0.00498 -0.01247 -0.02356 -1.56706 -0.06102 -0.06125</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Plane.015.dae</uri>
+            <uri>package://fbot_description/meshes/face/Plane.015.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -245,7 +245,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Cylinder.004.dae</uri>
+            <uri>package://fbot_description/meshes/face/Cylinder.004.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -268,7 +268,7 @@
         <pose>0.00551 -0.01216 -0.01543 1.5708 -0.06113 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Plane.001.dae</uri>
+            <uri>package://fbot_description/meshes/face/Plane.001.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -304,7 +304,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Cube.055.dae</uri>
+            <uri>package://fbot_description/meshes/face/Cube.055.dae</uri>
             <scale>0.01 0.01 0.01</scale>
           </mesh>
         </geometry>
@@ -326,7 +326,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Cylinder.005.dae</uri>
+            <uri>package://fbot_description/meshes/face/Cylinder.005.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -375,7 +375,7 @@
         <pose>0 0 0 -1.5708 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Cube.007.dae</uri>
+            <uri>package://fbot_description/meshes/face/Cube.007.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -398,7 +398,7 @@
         <pose>0.0038 -0.01141 -0.01966 -1.5708 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Plane.013.dae</uri>
+            <uri>package://fbot_description/meshes/face/Plane.013.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -421,7 +421,7 @@
         <pose>0.00701 -0.01106 -0.01469 1.5708 0 0.3358</pose>
         <geometry>
           <mesh>
-            <uri>package://boris_head_description/meshes/dae/Plane.014.dae</uri>
+            <uri>package://fbot_description/meshes/face/Plane.014.dae</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -457,7 +457,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://sensors_description/meshes/sick-lms1xx.dae</uri>
+            <uri>package://fbot_description/meshes/sensors/sick-lms1xx.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -478,7 +478,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://sensors_description/meshes/tilt_link.STL</uri>
+            <uri>package://fbot_description/meshes/neck/tilt_link.STL</uri>
           </mesh>
         </geometry>
         <material>
@@ -492,7 +492,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://sensors_description/meshes/tilt_link.STL</uri>
+            <uri>package://fbot_description/meshes/neck/tilt_link.STL</uri>
           </mesh>
         </geometry>
       </collision>
@@ -513,7 +513,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://sensors_description/meshes/roll_link.STL</uri>
+            <uri>package://fbot_description/meshes/neck/roll_link.STL</uri>
           </mesh>
         </geometry>
         <material>
@@ -527,7 +527,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://sensors_description/meshes/roll_link.STL</uri>
+            <uri>package://fbot_description/meshes/neck/roll_link.STL</uri>
           </mesh>
         </geometry>
       </collision>
@@ -626,7 +626,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://sensors_description/meshes/hokuyo.dae</uri>
+            <uri>package://fbot_description/meshes/sensors/hokuyo.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -647,7 +647,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>package://sensors_description/meshes/hokuyo.dae</uri>
+            <uri>package://fbot_description/meshes/sensors/hokuyo.dae</uri>
           </mesh>
         </geometry>
       </visual>

@@ -62,7 +62,7 @@ def generate_launch_description():
         value=[
             EnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', default_value=''),
             '/home/fbot/.gazebo/models/',
-            str(Path(get_package_share_directory('boris_description')).parent.resolve()),
+            str(Path(get_package_share_directory('fbot_description')).parent.resolve()),
             str(Path(get_package_share_directory('hector_models')).parent.resolve()),
             str(os.path.join(get_package_share_directory('fbot_simulation'), 'models')),
             str(Path(get_package_share_directory('interbotix_xsarm_descriptions')).parent.resolve())
@@ -79,7 +79,7 @@ def generate_launch_description():
         }.items()
     )
     robot_description = ParameterValue(
-        Command(['xacro ', str(os.path.join(get_package_share_directory('boris_description'), 'urdf', 'boris_full.xacro'))]), value_type=str
+        Command(['xacro ', str(os.path.join(get_package_share_directory('fbot_description'), 'urdf', 'boris.urdf.xacro'))]), value_type=str
     )
     robot_controllers = PathJoinSubstitution(
         [
