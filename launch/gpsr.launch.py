@@ -1,162 +1,144 @@
 import os
-import launch
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler, SetEnvironmentVariable
-from launch.event_handlers import OnProcessExit
-import launch.launch_description_sources
-from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-from launch.substitutions import EnvironmentVariable
-from ament_index_python.packages import get_package_share_directory
 from pathlib import Path
-from launch.conditions import IfCondition
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
-from launch_ros.descriptions import ParameterValue, ParameterFile
 
-from ament_index_python.packages import get_package_share_directory
-from interbotix_xs_modules.xs_common import (
-    get_interbotix_xsarm_models,
-)
-from interbotix_xs_modules.xs_launch import (
-    construct_interbotix_xsarm_semantic_robot_description_command,
-    declare_interbotix_xsarm_robot_description_launch_arguments,
-    determine_use_sim_time_param,
-)
+from ament_index_python.packages import get_package_share_directory, PackageNotFoundError
 from launch import LaunchDescription
 from launch.actions import (
+    AppendEnvironmentVariable,
     DeclareLaunchArgument,
     IncludeLaunchDescription,
-    OpaqueFunction,
+    RegisterEventHandler,
 )
-from launch.conditions import IfCondition, LaunchConfigurationEquals
+from launch.conditions import IfCondition
+from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import (
-    LaunchConfiguration,
-    PathJoinSubstitution,
-    PythonExpression,
-    TextSubstitution,
-)
-from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-import yaml
-from interbotix_xs_modules.xs_common import (
-    get_interbotix_xsarm_models,
-)
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration
+from launch_ros.actions import Node, SetParameter
+from launch_ros.descriptions import ParameterValue
 
 
-def load_yaml(package_name, file_path):
-    package_path = get_package_share_directory(package_name)
-    absolute_file_path = os.path.join(package_path, file_path)
+def _share_parent(pkg):
     try:
-        with open(absolute_file_path, 'r') as file:
-            return yaml.safe_load(file)
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
+        return str(Path(get_package_share_directory(pkg)).parent.resolve())
+    except PackageNotFoundError:
         return None
 
 
 def generate_launch_description():
-    # Set ignition resource path
-    '''ign_gz_resource_path_env_var = SetEnvironmentVariable(
-        name='IGN_GAZEBO_RESOURCE_PATH',
-        value=[
-            EnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', default_value=''),
-            '/home/fbot/.gazebo/models/',
-            str(Path(get_package_share_directory('boris_description')).parent.resolve()),
-            str(Path(get_package_share_directory('hector_models')).parent.resolve()),
-            str(os.path.join(get_package_share_directory('fbot_simulation'), 'models')),
-            str(Path(get_package_share_directory('interbotix_xsarm_descriptions')).parent.resolve())
-        ]
-    )'''
-    ign_package = get_package_share_directory('ros_gz_sim')
-    ign_sim = launch.actions.IncludeLaunchDescription(
-        launch.launch_description_sources.PythonLaunchDescriptionSource(
-            os.path.join(ign_package, 'launch', 'gz_sim.launch.py')
-        ),
+    sim_share = get_package_share_directory('fbot_simulation')
+
+    args = [
+        DeclareLaunchArgument('world', default_value='arena_env.world',
+                              description='World file inside fbot_simulation/worlds'),
+        DeclareLaunchArgument('use_navigation', default_value='true'),
+        DeclareLaunchArgument('use_rviz', default_value='true'),
+        DeclareLaunchArgument('use_moveit', default_value='true'),
+        DeclareLaunchArgument('use_agent', default_value='true'),
+        DeclareLaunchArgument('spawn_x', default_value='0.0'),
+        DeclareLaunchArgument('spawn_y', default_value='1.0'),
+        DeclareLaunchArgument('spawn_yaw', default_value='0.0'),
+    ]
+
+    resource_paths = [os.path.join(sim_share, 'models')]
+    for pkg in ('boris_description', 'shark_description', 'sensors_description',
+                'boris_head_description', 'interbotix_xsarm_descriptions'):
+        p = _share_parent(pkg)
+        if p:
+            resource_paths.append(p)
+    env = [
+        AppendEnvironmentVariable('GZ_SIM_RESOURCE_PATH', os.pathsep.join(resource_paths)),
+        AppendEnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', os.pathsep.join(resource_paths)),
+    ]
+
+    use_sim_time = SetParameter(name='use_sim_time', value=True)
+
+    gz_sim = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')),
         launch_arguments={
-            'gz_args': "-r -v4 " + str(os.path.join(get_package_share_directory('fbot_simulation'), 'worlds', 'arena_env.world')),
-            'on_exit_shutdown': 'true'
-        }.items()
+            'gz_args': ['-r -v4 ', os.path.join(sim_share, 'worlds', ''), LaunchConfiguration('world')],
+            'on_exit_shutdown': 'true',
+        }.items(),
     )
+
     robot_description = ParameterValue(
-        Command(['xacro ', str(os.path.join(get_package_share_directory('boris_description'), 'urdf', 'boris_full.xacro'))]), value_type=str
+        Command([
+            FindExecutable(name='xacro'), ' ',
+            os.path.join(get_package_share_directory('boris_description'), 'urdf', 'boris_description.xacro'),
+            ' use_sim:=true arm_z_position:=0.23',
+        ]),
+        value_type=str,
     )
-    robot_controllers = PathJoinSubstitution(
-        [
-            FindPackageShare('boris_moveit_config'),
-            'config',
-            'ros2_controllers.yaml',
-        ]
+
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[{'robot_description': robot_description}],
+        output='screen',
     )
-    joint_state_broadcaster_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_state_broadcaster'],
-        #namespace='/wx200'
+
+    joint_state_publisher = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        parameters=[{'source_list': ['/gz/joint_states'], 'rate': 50}],
+        output='log',
     )
-    joint_trajectory_controller_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            'interbotix_arm_controller',
-            'interbotix_gripper_controller',
-            '--param-file',
-            robot_controllers,
-            ],
-        #namespace='/wx200'
-    )
-    ign_create_robot = Node(
+
+    spawn_robot = Node(
         package='ros_gz_sim',
         executable='create',
         name='create_robot',
         arguments=[
-            '-param', 'robot_description',
-            '-y', '1.0',
-            '-z', '0.1'
+            '-name', 'boris',
+            '-topic', 'robot_description',
+            '-x', LaunchConfiguration('spawn_x'),
+            '-y', LaunchConfiguration('spawn_y'),
+            '-z', '0.05',
+            '-Y', LaunchConfiguration('spawn_yaw'),
         ],
-        parameters=[{
-            'robot_description': robot_description,
-        }],
-    )
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        parameters=[{
-            'robot_description': robot_description,
-            #'use_sim_time': True,
-        }],
-        #namespace='/wx200',
-        output={'both': 'screen'},
+        output='screen',
     )
 
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        #namespace='/wx200',
-        parameters=[{
-            #'use_sim_time': True,
-        }],
-        output={'both': 'log'},
+    joint_state_broadcaster_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster', '--controller-manager', '/controller_manager'],
     )
+    base_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['hoverboard_base_controller', '--controller-manager', '/controller_manager'],
+    )
+    arm_controllers_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['interbotix_arm_controller', 'interbotix_gripper_controller',
+                   '--controller-manager', '/controller_manager'],
+    )
+    start_controllers_after_jsb = RegisterEventHandler(
+        OnProcessExit(target_action=joint_state_broadcaster_spawner,
+                      on_exit=[base_controller_spawner, arm_controllers_spawner]))
+
     gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        name='ign_bridge',
+        name='gz_bridge',
         arguments=[
-            #"/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock"
-            "/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist",
-            "/hoverboard_base_controller/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
-            "/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-            "/back/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-            "/ground/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan",
-            "/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
-            "/wx200/astra2_top_camera/depth/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
-            "/wx200/astra2_top_camera/rgb/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
-            "/wx200/astra2_wrist_camera/rgb/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            '/scan_ground@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            '/scan_back@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            '/wx200/astra2_top_camera/depth/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+            '/wx200/astra2_top_camera/rgb/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+            '/wx200/astra2_wrist_camera/rgb/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
         ],
-        output="screen"
+        remappings=[
+            ('/scan_ground', '/scan2'),
+            ('/scan_back', '/scan3'),
+        ],
+        output='screen',
     )
-    image_gz_bridge = Node(
+    image_bridge = Node(
         package='ros_gz_image',
         executable='image_bridge',
         arguments=[
@@ -166,54 +148,43 @@ def generate_launch_description():
         ],
         output='screen',
     )
-    '''navigation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('nav2_bringup'), 'launch', 'bringup_launch.py')),
-        launch_arguments={
-            'use_sim_time': 'true',
-            'autostart': 'True',
-            'map': os.path.join(get_package_share_directory('fbot_navigation'), 'maps', 'arena_env.yaml'),
-            'params_file': os.path.join(get_package_share_directory('fbot_navigation'), 'param', 'tb3_nav2_params_sim.yaml'),
-            'slam': 'False',
-        }.items()
-    )'''
+
     navigation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('fbot_navigation'), 'launch', 'navigation.launch.py')),
-        launch_arguments={
-        }.items()
-    )
-    scan_relay = Node(
-        package='topic_tools',
-        executable='relay',
-        name='relay_scan',
-        arguments=[
-            '/lms1xx/scan', '/scan'
-        ]
-    )
-    moveit = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            launch_file_path=os.path.join(get_package_share_directory('boris_moveit_config'), 'launch', 'demo.launch.py')
-        )
+            os.path.join(get_package_share_directory('fbot_navigation'), 'launch', 'navigation_sim.launch.py')),
+        launch_arguments={'use_rviz': LaunchConfiguration('use_rviz')}.items(),
+        condition=IfCondition(LaunchConfiguration('use_navigation')),
     )
-    agent = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            launch_file_path=os.path.join(get_package_share_directory('fbot_agent'), 'launch', 'fbot_agent.launch.py')
-        )
-    )
-    return LaunchDescription([
-        #ign_gz_resource_path_env_var,
-        ign_sim,
-        ign_create_robot,
-        robot_state_publisher_node,
-        joint_state_publisher_node,
+
+    actions = args + env + [
+        use_sim_time,
+        gz_sim,
+        robot_state_publisher,
+        joint_state_publisher,
+        spawn_robot,
         joint_state_broadcaster_spawner,
-        joint_trajectory_controller_spawner, 
+        start_controllers_after_jsb,
         gz_bridge,
-        image_gz_bridge,
+        image_bridge,
         navigation,
-        scan_relay,
-        #static_transform,
-        #move_group_node,
-        #rviz,
-        moveit,
-        agent,
-    ])
+    ]
+
+    try:
+        moveit_share = get_package_share_directory('boris_moveit_config')
+        move_group = os.path.join(moveit_share, 'launch', 'move_group.launch.py')
+        if os.path.exists(move_group):
+            actions.append(IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(move_group),
+                condition=IfCondition(LaunchConfiguration('use_moveit'))))
+    except PackageNotFoundError:
+        pass
+
+    try:
+        actions.append(IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(
+                get_package_share_directory('fbot_agent'), 'launch', 'fbot_agent.launch.py')),
+            condition=IfCondition(LaunchConfiguration('use_agent'))))
+    except PackageNotFoundError:
+        pass
+
+    return LaunchDescription(actions)

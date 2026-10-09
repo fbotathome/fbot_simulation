@@ -341,7 +341,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/floor_part.stl</uri>
+              <uri>model://arena_home/meshes/floor_part.stl</uri>
               
             
             </mesh>
@@ -382,7 +382,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/floor_part.stl</uri>
+              <uri>model://arena_home/meshes/floor_part.stl</uri>
               
             
             </mesh>
@@ -405,7 +405,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/grey_part.stl</uri>
+              <uri>model://arena_home/meshes/grey_part.stl</uri>
               
             
             </mesh>
@@ -446,7 +446,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/grey_part.stl</uri>
+              <uri>model://arena_home/meshes/grey_part.stl</uri>
               
             
             </mesh>
@@ -469,7 +469,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/white_part.stl</uri>
+              <uri>model://arena_home/meshes/white_part.stl</uri>
               
             
             </mesh>
@@ -510,7 +510,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/white_part.stl</uri>
+              <uri>model://arena_home/meshes/white_part.stl</uri>
               
             
             </mesh>
@@ -533,7 +533,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/black_part.stl</uri>
+              <uri>model://arena_home/meshes/black_part.stl</uri>
               
             
             </mesh>
@@ -574,7 +574,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/black_part.stl</uri>
+              <uri>model://arena_home/meshes/black_part.stl</uri>
               
             
             </mesh>
@@ -597,7 +597,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/pilar_part.stl</uri>
+              <uri>model://arena_home/meshes/pilar_part.stl</uri>
               
             
             </mesh>
@@ -638,7 +638,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/pilar_part.stl</uri>
+              <uri>model://arena_home/meshes/pilar_part.stl</uri>
               
             
             </mesh>
@@ -688,7 +688,7 @@
               <metal>
                 
                 
-                <albedo_map>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/materials/textures/parede.png</albedo_map>
+                <albedo_map>model://arena_home/materials/textures/parede.png</albedo_map>
                 
               
               </metal>
@@ -746,7 +746,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/wall_part.stl</uri>
+              <uri>model://arena_home/meshes/wall_part.stl</uri>
               
             
             </mesh>
@@ -790,7 +790,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/wall_part.stl</uri>
+              <uri>model://arena_home/meshes/wall_part.stl</uri>
               
             
             </mesh>
@@ -813,7 +813,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/cama_part.stl</uri>
+              <uri>model://arena_home/meshes/cama_part.stl</uri>
               
             
             </mesh>
@@ -857,7 +857,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/cama_part.stl</uri>
+              <uri>model://arena_home/meshes/cama_part.stl</uri>
               
             
             </mesh>
@@ -880,7 +880,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/travesseiro_part.stl</uri>
+              <uri>model://arena_home/meshes/travesseiro_part.stl</uri>
               
             
             </mesh>
@@ -924,7 +924,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/travesseiro_part.stl</uri>
+              <uri>model://arena_home/meshes/travesseiro_part.stl</uri>
               
             
             </mesh>
@@ -947,7 +947,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lençol.stl</uri>
+              <uri>model://arena_home/meshes/lençol.stl</uri>
               
             
             </mesh>
@@ -991,7 +991,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lençol.stl</uri>
+              <uri>model://arena_home/meshes/lençol.stl</uri>
               
             
             </mesh>
@@ -1014,7 +1014,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lixeira_part.stl</uri>
+              <uri>model://arena_home/meshes/lixeira_part.stl</uri>
               
             
             </mesh>
@@ -1058,7 +1058,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lixeira_part.stl</uri>
+              <uri>model://arena_home/meshes/lixeira_part.stl</uri>
               
             
             </mesh>
@@ -1081,7 +1081,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lixeira_part.stl</uri>
+              <uri>model://arena_home/meshes/lixeira_part.stl</uri>
               
             
             </mesh>
@@ -1125,7 +1125,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lixeira_part.stl</uri>
+              <uri>model://arena_home/meshes/lixeira_part.stl</uri>
               
             
             </mesh>
@@ -1148,7 +1148,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/mesa_part.stl</uri>
+              <uri>model://arena_home/meshes/mesa_part.stl</uri>
               
             
             </mesh>
@@ -1192,7 +1192,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/mesa_part.stl</uri>
+              <uri>model://arena_home/meshes/mesa_part.stl</uri>
               
             
             </mesh>
@@ -1215,7 +1215,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/cadeira_part.stl</uri>
+              <uri>model://arena_home/meshes/cadeira_part.stl</uri>
               
             
             </mesh>
@@ -1259,7 +1259,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/cadeira_part.stl</uri>
+              <uri>model://arena_home/meshes/cadeira_part.stl</uri>
               
             
             </mesh>
@@ -1282,7 +1282,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/escrivaninha_part.stl</uri>
+              <uri>model://arena_home/meshes/escrivaninha_part.stl</uri>
               
             
             </mesh>
@@ -1326,7 +1326,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/escrivaninha_part.stl</uri>
+              <uri>model://arena_home/meshes/escrivaninha_part.stl</uri>
               
             
             </mesh>
@@ -1349,7 +1349,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/cadeiras_part.stl</uri>
+              <uri>model://arena_home/meshes/cadeiras_part.stl</uri>
               
             
             </mesh>
@@ -1393,7 +1393,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/cadeiras_part.stl</uri>
+              <uri>model://arena_home/meshes/cadeiras_part.stl</uri>
               
             
             </mesh>
@@ -1416,7 +1416,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/mesa_janta_part.stl</uri>
+              <uri>model://arena_home/meshes/mesa_janta_part.stl</uri>
               
             
             </mesh>
@@ -1460,7 +1460,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/mesa_janta_part.stl</uri>
+              <uri>model://arena_home/meshes/mesa_janta_part.stl</uri>
               
             
             </mesh>
@@ -1483,7 +1483,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/geladeira_part.stl</uri>
+              <uri>model://arena_home/meshes/geladeira_part.stl</uri>
               
             
             </mesh>
@@ -1527,7 +1527,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/geladeira_part.stl</uri>
+              <uri>model://arena_home/meshes/geladeira_part.stl</uri>
               
             
             </mesh>
@@ -1550,7 +1550,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/tabua_part.stl</uri>
+              <uri>model://arena_home/meshes/tabua_part.stl</uri>
               
             
             </mesh>
@@ -1594,7 +1594,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/tabua_part.stl</uri>
+              <uri>model://arena_home/meshes/tabua_part.stl</uri>
               
             
             </mesh>
@@ -1617,7 +1617,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lava_part.stl</uri>
+              <uri>model://arena_home/meshes/lava_part.stl</uri>
               
             
             </mesh>
@@ -1661,7 +1661,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/lava_part.stl</uri>
+              <uri>model://arena_home/meshes/lava_part.stl</uri>
               
             
             </mesh>
@@ -1684,7 +1684,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/muro_part.stl</uri>
+              <uri>model://arena_home/meshes/muro_part.stl</uri>
               
             
             </mesh>
@@ -1728,7 +1728,7 @@
             <mesh>
               
               
-              <uri>/home/fbot/fbot_ws/src/fbot_simulation/models/arena_home/meshes/muro_part.stl</uri>
+              <uri>model://arena_home/meshes/muro_part.stl</uri>
               
             
             </mesh>
